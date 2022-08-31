@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.iu.flightsystem.model.Flight;
 
 @Repository
-public class FlightRepo {
+public class FlightsRepo {
 	@Autowired
 	public JdbcTemplate jdbcTemplate;
 
@@ -22,7 +22,7 @@ public class FlightRepo {
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public boolean save(Flight flight) {
-		String sql = "INSERT INTO \"FLIGHT\"( \"FLIGHT_ID\", \"CUSTOMER_ID\", \"PLANE_ID\", \"FLIGHT_DATE\", \"FLIGHT_PRICE\", \"FROM_WHERE\", \"TO_WHERE\") VALUES (:FLIGHT_ID, :CUSTOMER_ID, :PLANE_ID, :FLIGHT_DATE, :FLIGHT_PRICE, :FROM_WHERE, :TO_WHERE)";
+		String sql = "INSERT INTO \"FLIGHTS\"( \"FLIGHT_ID\", \"CUSTOMER_ID\", \"PLANE_ID\", \"FLIGHT_DATE\", \"FLIGHT_PRICE\", \"FROM_WHERE\", \"TO_WHERE\") VALUES (:FLIGHT_ID, :CUSTOMER_ID, :PLANE_ID, :FLIGHT_DATE, :FLIGHT_PRICE, :FROM_WHERE, :TO_WHERE)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("FLIGHT_ID", flight.getFLIGHT_ID());
 		paramMap.put("CUSTOMER_ID", flight.getCUSTOMER_ID());
@@ -35,7 +35,7 @@ public class FlightRepo {
 	}
 
 	public List<Flight> getAll() {
-		String sql = "SELECT * FROM \"FLIGHT\" ORDER BY \"FLIGHT_ID\" DESC";
+		String sql = "SELECT * FROM \"FLIGHTS\" ORDER BY \"FLIGHT_ID\" DESC";
 		RowMapper<Flight> rowMapper = new RowMapper<Flight>() {
 			@Override
 			public Flight mapRow(ResultSet result, int rowNum) throws SQLException {
@@ -48,7 +48,7 @@ public class FlightRepo {
 	}
 
 	public Flight getById(Long id) {
-		String sql = "SELECT * FROM \"FLIGHT\" where \"FLIGHT_ID\" = :FLIGHT_ID";
+		String sql = "SELECT * FROM \"FLIGHTS\" where \"FLIGHT_ID\" = :FLIGHT_ID";
 		RowMapper<Flight> rowMapper = new RowMapper<Flight>() {
 			@Override
 			public Flight mapRow(ResultSet result, int rowNum) throws SQLException {
@@ -62,10 +62,10 @@ public class FlightRepo {
 		return namedParameterJdbcTemplate.queryForObject(sql, params, rowMapper);
 	}
 
-	public Integer deleteById(Long id) {
-		String sql = "DELETE FROM \"FLIGHT\" where \"FLIGHT_ID\" = :FLIGHT_ID";
+	public boolean deleteById(Long id) {
+		String sql = "DELETE FROM \"FLIGHTS\" where \"FLIGHT_ID\" = :FLIGHT_ID";
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("FLIGHT_ID", id);
-		return namedParameterJdbcTemplate.update(sql, params);
+		return namedParameterJdbcTemplate.update(sql, params) > 0;
 	}
 }
