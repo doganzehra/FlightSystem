@@ -32,10 +32,6 @@ public class Plane {
 		PLANE_BRAND = pLANE_BRAND;
 	}
 
-	public Plane() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public Plane(Long pLANE_ID, String pLANE_NAME, String pLANE_BRAND) {
 		super();
 		PLANE_ID = pLANE_ID;

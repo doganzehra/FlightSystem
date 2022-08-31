@@ -18,23 +18,18 @@ import com.iu.flightsystem.model.Plane;
 import com.iu.flightsystem.repository.PlaneRepo;
 import com.iu.flightsystem.service.PlaneService;
 
+
 @RestController
 @RequestMapping(path = "plane")
 public class PlaneController {
 
-	private PlaneService planeService;
-	private PlaneRepo planeRepo;
+	@Autowired
+	public PlaneService planeService;
 	
-
-	public PlaneController(PlaneService planeService, PlaneRepo planeRepo) {
-		this.planeService = planeService;
-		this.planeRepo = planeRepo;
-	}
-
-// localhost:8080/flightsystem/plane/getAll
+	// localhost:8080/flightsystem/plane/getAll
 	@GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Plane> getAll() {
-		return planeRepo.getAll();
+		return planeService.getAll();
 	}
 
 	// localhost:8080/flightsystem/plane/getById/1

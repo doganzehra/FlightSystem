@@ -18,11 +18,10 @@ public class PlaneRepo {
 
 	@Autowired
 	public JdbcTemplate jdbcTemplate;
-
+	
 	@Autowired
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	
 	public boolean save(Plane plane) {
 		String sql = "INSERT INTO public.\"PLANE\"(\"PLANE_NAME\", \"PLANE_BRAND\") VALUES (?, ?)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
