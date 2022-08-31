@@ -22,9 +22,8 @@ public class CitiesRepo {
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public boolean save(Cities cities) {
-		String sql = "INSERT INTO \"CITIES\"( \"CITY_ID\", \"CITY_NAME\", \"CITY_GROUP_ID\") VALUES (:CITY_ID, :CITY_NAME, :CITY_GROUP_ID)";
+		String sql = "INSERT INTO \"CITIES\"( \"CITY_NAME\", \"CITY_GROUP_ID\") VALUES (:CITY_NAME, :CITY_GROUP_ID)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("CITY_ID", cities.getCITY_ID());
 		paramMap.put("CITY_NAME", cities.getCITY_NAME());
 		paramMap.put("CITY_GROUP_ID", cities.getCITY_GROUP_ID());
 		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;

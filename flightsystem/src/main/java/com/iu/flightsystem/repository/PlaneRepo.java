@@ -18,12 +18,12 @@ public class PlaneRepo {
 
 	@Autowired
 	public JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public boolean save(Plane plane) {
-		String sql = "INSERT INTO public.\"PLANE\"(\"PLANE_NAME\", \"PLANE_BRAND\") VALUES (?, ?)";
+		String sql = "INSERT INTO public.\"PLANE\"(\"PLANE_NAME\", \"PLANE_BRAND\") VALUES (:PLANE_NAME, :PLANE_BRAND)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("PLANE_NAME", plane.getPLANE_NAME());
 		paramMap.put("PLANE_BRAND", plane.getPLANE_BRAND());
@@ -35,7 +35,8 @@ public class PlaneRepo {
 		RowMapper<Plane> rowMapper = new RowMapper<Plane>() {
 			@Override
 			public Plane mapRow(ResultSet result, int rowNum) throws SQLException {
-				return new Plane(result.getLong("PLANE_ID"), result.getString("PLANE_NAME"), result.getString("PLANE_BRAND"));
+				return new Plane(result.getLong("PLANE_ID"), result.getString("PLANE_NAME"),
+						result.getString("PLANE_BRAND"));
 			}
 		};
 		return jdbcTemplate.query(sql, rowMapper);
@@ -46,7 +47,8 @@ public class PlaneRepo {
 		RowMapper<Plane> rowMapper = new RowMapper<Plane>() {
 			@Override
 			public Plane mapRow(ResultSet result, int rowNum) throws SQLException {
-				return new Plane(result.getLong("PLANE_ID"), result.getString("PLANE_NAME"), result.getString("PLANE_BRAND"));
+				return new Plane(result.getLong("PLANE_ID"), result.getString("PLANE_NAME"),
+						result.getString("PLANE_BRAND"));
 			}
 		};
 		HashMap<String, Object> params = new HashMap<>();
@@ -60,7 +62,5 @@ public class PlaneRepo {
 		params.put("PLANE_ID", plane_id);
 		return namedParameterJdbcTemplate.update(sql, params) > 0;
 	}
-	
-	
-	
+
 }

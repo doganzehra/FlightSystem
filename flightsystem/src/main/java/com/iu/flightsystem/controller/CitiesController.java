@@ -25,7 +25,7 @@ public class CitiesController {
 		this.service = service;
 	}
 
-//localhost:8080/flightsystem/cities/getAll
+	// localhost:8080/flightsystem/cities/getAll
 	@GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Cities> getAll() {
 		return service.getAll();

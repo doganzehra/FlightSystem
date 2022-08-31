@@ -23,10 +23,9 @@ public class CustomerRepo {
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public boolean save(Customer customer) {
-		String sql = "INSERT INTO \"CUSTOMER\"( \"CUSTOMER_ID\", \"CUSTOMER_NAME\") VALUES (:CUSTOMER_ID, :CUSTOMER_NAME)";
+		String sql = "INSERT INTO \"CUSTOMER\"( \"CUSTOMER_NAME\") VALUES (:CUSTOMER_NAME)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("NAME", customer.getCUSTOMER_ID());
-		paramMap.put("OGR_NUMBER", customer.getCUSTOMER_NAME());
+		paramMap.put("CUSTOMER_NAME", customer.getCUSTOMER_NAME());
 		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
 	}
 

@@ -22,9 +22,8 @@ public class FlightsRepo {
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public boolean save(Flight flight) {
-		String sql = "INSERT INTO \"FLIGHTS\"( \"FLIGHT_ID\", \"CUSTOMER_ID\", \"PLANE_ID\", \"FLIGHT_DATE\", \"FLIGHT_PRICE\", \"FROM_WHERE\", \"TO_WHERE\") VALUES (:FLIGHT_ID, :CUSTOMER_ID, :PLANE_ID, :FLIGHT_DATE, :FLIGHT_PRICE, :FROM_WHERE, :TO_WHERE)";
+		String sql = "INSERT INTO \"FLIGHTS\"( \"CUSTOMER_ID\", \"PLANE_ID\", \"FLIGHT_DATE\", \"FLIGHT_PRICE\", \"FROM_WHERE\", \"TO_WHERE\") VALUES (:CUSTOMER_ID, :PLANE_ID, :FLIGHT_DATE, :FLIGHT_PRICE, :FROM_WHERE, :TO_WHERE)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("FLIGHT_ID", flight.getFLIGHT_ID());
 		paramMap.put("CUSTOMER_ID", flight.getCUSTOMER_ID());
 		paramMap.put("PLANE_ID", flight.getPLANE_ID());
 		paramMap.put("FLIGHT_DATE", flight.getFLIGHT_DATE());

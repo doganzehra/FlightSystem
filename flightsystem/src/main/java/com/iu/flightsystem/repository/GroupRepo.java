@@ -15,7 +15,7 @@ import com.iu.flightsystem.model.Group;
 
 @Repository
 public class GroupRepo {
-	
+
 	@Autowired
 	public JdbcTemplate jdbcTemplate;
 
@@ -23,7 +23,7 @@ public class GroupRepo {
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public boolean save(Group group) {
-		String sql = "INSERT INTO public.\"GROUPS\"(\"GROUP_NO\")VALUES (?)";
+		String sql = "INSERT INTO public.\"GROUPS\"(\"GROUP_NO\")VALUES (:GROUP_NO)";
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("GROUP_NO", group.getGROUP_NO());
 		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
@@ -59,6 +59,5 @@ public class GroupRepo {
 		params.put("GROUP_ID", group_id);
 		return namedParameterJdbcTemplate.update(sql, params) > 0;
 	}
-	
-	
+
 }
