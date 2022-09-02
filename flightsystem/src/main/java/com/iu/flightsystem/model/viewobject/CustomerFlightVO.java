@@ -16,6 +16,8 @@ public class CustomerFlightVO {
 	private Long TO_WHERE;
 
 	private String CUSTOMER_NAME;
+	
+	private String dENEMEString;
 
 	public Long getFLIGHT_ID() {
 		return FLIGHT_ID;
