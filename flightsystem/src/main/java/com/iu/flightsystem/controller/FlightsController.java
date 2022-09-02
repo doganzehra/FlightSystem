@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iu.flightsystem.model.Flight;
+import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
 import com.iu.flightsystem.service.FlightsService;
 
 @RestController
@@ -55,5 +56,11 @@ public class FlightsController {
 		} else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile silinemedi");
 		}
+	}
+
+	// localhost:8080/flightsystem/flight/getFlightByCustomerName/ZEHRA DOGAN
+	@GetMapping(value = "/getFlightByCustomerName/{customer_name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<CustomerFlightVO> getFlightByCustomerName(@PathVariable(value = "customer_name") String customerName) {
+		return service.getFlightByCustomerName(customerName);
 	}
 }

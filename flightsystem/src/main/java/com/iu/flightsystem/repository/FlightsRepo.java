@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.iu.flightsystem.model.Flight;
+import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
 
 @Repository
 public class FlightsRepo {
@@ -41,6 +42,26 @@ public class FlightsRepo {
 				return new Flight(result.getLong("FLIGHT_ID"), result.getLong("CUSTOMER_ID"),
 						result.getLong("PLANE_ID"), result.getString("FLIGHT_DATE"), result.getLong("FLIGHT_PRICE"),
 						result.getLong("FROM_WHERE"), result.getLong("TO_WHERE"));
+			}
+		};
+		return jdbcTemplate.query(sql, rowMapper);
+	}
+
+	public List<CustomerFlightVO> getFlightByCustomerName(String customerName) {
+		String sql = "SELECT f.*, c.\"CUSTOMER_NAME\" FROM \"FLIGHTS\" AS f, \"CUSTOMER\" AS c WHERE c.\"CUSTOMER_ID\"=f.\"CUSTOMER_ID\" AND c.\"CUSTOMER_NAME\"='ZEHRA DOGAN'";
+		RowMapper<CustomerFlightVO> rowMapper = new RowMapper<CustomerFlightVO>() {
+			@Override
+			public CustomerFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				CustomerFlightVO customerFlightVO = new CustomerFlightVO();
+				customerFlightVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
+				customerFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				customerFlightVO.setPLANE_ID(result.getLong("PLANE_ID"));
+				customerFlightVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				customerFlightVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
+				customerFlightVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
+				customerFlightVO.setTO_WHERE(result.getLong("TO_WHERE"));
+				customerFlightVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
+				return customerFlightVO;
 			}
 		};
 		return jdbcTemplate.query(sql, rowMapper);
