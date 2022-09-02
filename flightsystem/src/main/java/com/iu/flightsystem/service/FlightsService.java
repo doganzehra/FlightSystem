@@ -44,4 +44,8 @@ public class FlightsService {
 	public List<CustomerFlightVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
 		return repo.getOutcomingFlightsToCityByCustomerName(customerName, city);
 	}
+
+	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
+		return repo.getIncomingFlightsToCityByCustomerName(customerName, city);
+	}
 }
