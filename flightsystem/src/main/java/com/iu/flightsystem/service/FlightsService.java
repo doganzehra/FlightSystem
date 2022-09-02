@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.iu.flightsystem.model.Flight;
+import com.iu.flightsystem.model.viewobject.CustomerFlightCityVO;
+import com.iu.flightsystem.model.viewobject.CustomerFlightDateVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
 import com.iu.flightsystem.repository.FlightsRepo;
 
@@ -47,11 +49,11 @@ public class FlightsService {
 		return repo.getFlightByCustomerName(customerName);
 	}
 
-	public List<CustomerFlightVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
+	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
 		return repo.getOutcomingFlightsToCityByCustomerName(customerName, city);
 	}
 
-	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
+	public List<CustomerFlightCityVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
 		return repo.getIncomingFlightsToCityByCustomerName(customerName, city);
 	}
 
@@ -97,7 +99,7 @@ public class FlightsService {
 		return todayFlights;
 	}
 
-	public List<CustomerFlightVO> getCustomersByGivenDate(String date) {
+	public List<CustomerFlightDateVO> getCustomersByGivenDate(String date) {
 		return repo.getCustomersByGivenDate(date);
 	}
 }

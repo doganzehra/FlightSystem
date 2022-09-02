@@ -2,9 +2,12 @@ package com.iu.flightsystem.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +16,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.iu.flightsystem.model.Flight;
+import com.iu.flightsystem.model.viewobject.CustomerFlightCityVO;
+import com.iu.flightsystem.model.viewobject.CustomerFlightDateVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
 
 @Repository
@@ -53,31 +58,30 @@ public class FlightsRepo {
 		RowMapper<CustomerFlightVO> rowMapper = new RowMapper<CustomerFlightVO>() {
 			@Override
 			public CustomerFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
-				CustomerFlightVO customerFlightVO = new CustomerFlightVO();
-				customerFlightVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
-				customerFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
-				customerFlightVO.setPLANE_ID(result.getLong("PLANE_ID"));
-				customerFlightVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
-				customerFlightVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
-				customerFlightVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
-				customerFlightVO.setTO_WHERE(result.getLong("TO_WHERE"));
-				customerFlightVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
-				return customerFlightVO;
+				CustomerFlightVO customerVO = new CustomerFlightVO();
+				customerVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
+				customerVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				customerVO.setPLANE_ID(result.getLong("PLANE_ID"));
+				customerVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				customerVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
+				customerVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
+				customerVO.setTO_WHERE(result.getLong("TO_WHERE"));
+				customerVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
+				return customerVO;
 			}
 		};
 		HashMap<String, String> params = new HashMap<>();
 		params.put("CUSTOMER_NAME", customerName);
 		List<CustomerFlightVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
-		res.removeAll(Collections.singletonList(null));
 		return res;
 	}
 
-	public List<CustomerFlightVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
+	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
 		String sql = "SELECT f.*, c.\"CUSTOMER_NAME\", ci.\"CITY_NAME\" FROM \"FLIGHTS\" AS f, \"CUSTOMER\" AS c, \"CITIES\" AS ci WHERE c.\"CUSTOMER_ID\"=f.\"CUSTOMER_ID\" AND ci.\"CITY_ID\"=f.\"FROM_WHERE\" AND c.\"CUSTOMER_NAME\"= (:CUSTOMER_NAME) AND ci.\"CITY_NAME\" = (:CITY_NAME)";
-		RowMapper<CustomerFlightVO> rowMapper = new RowMapper<CustomerFlightVO>() {
+		RowMapper<CustomerFlightCityVO> rowMapper = new RowMapper<CustomerFlightCityVO>() {
 			@Override
-			public CustomerFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
-				CustomerFlightVO customerFlightVO = new CustomerFlightVO();
+			public CustomerFlightCityVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				CustomerFlightCityVO customerFlightVO = new CustomerFlightCityVO();
 				customerFlightVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
 				customerFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
 				customerFlightVO.setPLANE_ID(result.getLong("PLANE_ID"));
@@ -93,36 +97,35 @@ public class FlightsRepo {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("CUSTOMER_NAME", customerName);
 		params.put("CITY_NAME", city);
-		List<CustomerFlightVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
+		List<CustomerFlightCityVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
 		res.removeAll(Collections.singletonList(null));
 		return res;
 	}
 
-	public List<CustomerFlightVO> getCustomersByGivenDate(String date) {
+	public List<CustomerFlightDateVO> getCustomersByGivenDate(String date) {
 		String sql = "SELECT c.*, f.\"FLIGHT_DATE\" FROM \"FLIGHTS\" AS f, \"CUSTOMER\" AS c WHERE f.\"CUSTOMER_ID\"=c.\"CUSTOMER_ID\" AND f.\"FLIGHT_DATE\"= :FLIGHT_DATE";
-		RowMapper<CustomerFlightVO> rowMapper = new RowMapper<CustomerFlightVO>() {
+		RowMapper<CustomerFlightDateVO> rowMapper = new RowMapper<CustomerFlightDateVO>() {
 			@Override
-			public CustomerFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
-				CustomerFlightVO customerFlightVO = new CustomerFlightVO();
-				customerFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
-				customerFlightVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
-				customerFlightVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
-				return customerFlightVO;
+			public CustomerFlightDateVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				CustomerFlightDateVO customerFlightDateVO = new CustomerFlightDateVO();
+				customerFlightDateVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				customerFlightDateVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
+				customerFlightDateVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				return customerFlightDateVO;
 			}
 		};
 		HashMap<String, String> params = new HashMap<>();
 		params.put("FLIGHT_DATE", date);
-		List<CustomerFlightVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
-		res.removeAll(Collections.singletonList(null));
+		List<CustomerFlightDateVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
 		return res;
 	}
 
-	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
+	public List<CustomerFlightCityVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
 		String sql = "SELECT f.*, c.\"CUSTOMER_NAME\", ci.\"CITY_NAME\" FROM \"FLIGHTS\" AS f, \"CUSTOMER\" AS c, \"CITIES\" AS ci WHERE c.\"CUSTOMER_ID\"=f.\"CUSTOMER_ID\" AND ci.\"CITY_ID\"=f.\"TO_WHERE\" AND c.\"CUSTOMER_NAME\"= :CUSTOMER_NAME AND ci.\"CITY_NAME\"= :CITY_NAME";
-		RowMapper<CustomerFlightVO> rowMapper = new RowMapper<CustomerFlightVO>() {
+		RowMapper<CustomerFlightCityVO> rowMapper = new RowMapper<CustomerFlightCityVO>() {
 			@Override
-			public CustomerFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
-				CustomerFlightVO customerFlightVO = new CustomerFlightVO();
+			public CustomerFlightCityVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				CustomerFlightCityVO customerFlightVO = new CustomerFlightCityVO();
 				customerFlightVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
 				customerFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
 				customerFlightVO.setPLANE_ID(result.getLong("PLANE_ID"));
@@ -138,7 +141,7 @@ public class FlightsRepo {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("CUSTOMER_NAME", customerName);
 		params.put("CITY_NAME", city);
-		List<CustomerFlightVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
+		List<CustomerFlightCityVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
 		res.removeAll(Collections.singletonList(null));
 		return res;
 	}

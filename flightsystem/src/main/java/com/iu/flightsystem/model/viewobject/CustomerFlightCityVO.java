@@ -1,6 +1,6 @@
 package com.iu.flightsystem.model.viewobject;
 
-public class CustomerFlightVO {
+public class CustomerFlightCityVO {
 	private Long FLIGHT_ID;
 
 	private Long CUSTOMER_ID;
@@ -14,6 +14,18 @@ public class CustomerFlightVO {
 	private Long FROM_WHERE;
 
 	private Long TO_WHERE;
+
+	private String CUSTOMER_NAME;
+	
+	private String CITY_NAME;
+
+	public String getCITY_NAME() {
+		return CITY_NAME;
+	}
+
+	public void setCITY_NAME(String CITY_NAME) {
+		this.CITY_NAME = CITY_NAME;
+	}
 
 	public Long getFLIGHT_ID() {
 		return FLIGHT_ID;
@@ -78,6 +90,4 @@ public class CustomerFlightVO {
 	public void setCUSTOMER_NAME(String cUSTOMER_NAME) {
 		CUSTOMER_NAME = cUSTOMER_NAME;
 	}
-
-	private String CUSTOMER_NAME;
 }

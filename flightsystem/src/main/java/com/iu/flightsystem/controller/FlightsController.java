@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iu.flightsystem.model.Flight;
+import com.iu.flightsystem.model.viewobject.CustomerFlightCityVO;
+import com.iu.flightsystem.model.viewobject.CustomerFlightDateVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
 import com.iu.flightsystem.service.FlightsService;
 
@@ -67,7 +69,7 @@ public class FlightsController {
 	// localhost:8080/flightsystem/flight/getOutcomingFlightsToCityByCustomerName/ZEHRA
 	// DOGAN/ankara
 	@GetMapping(value = "/getOutcomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CustomerFlightVO> getOutcomingFlightsToCityByCustomerName(
+	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(
 			@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
 		return service.getOutcomingFlightsToCityByCustomerName(customerName, city);
 	}
@@ -75,7 +77,7 @@ public class FlightsController {
 	// localhost:8080/flightsystem/flight/getIncomingFlightsToCityByCustomerName/MEHMET
 	// SIMSEK/MANISA
 	@GetMapping(value = "/getIncomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(
+	public List<CustomerFlightCityVO> getIncomingFlightsToCityByCustomerName(
 			@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
 		return service.getIncomingFlightsToCityByCustomerName(customerName, city);
 	}
@@ -100,7 +102,7 @@ public class FlightsController {
 
 	// localhost:8080/flightsystem/flight/getCustomersByGivenDate
 	@GetMapping(value = "/getCustomersByGivenDate/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CustomerFlightVO> getCustomersByGivenDate(@PathVariable(value = "date") String date) {
+	public List<CustomerFlightDateVO> getCustomersByGivenDate(@PathVariable(value = "date") String date) {
 		return service.getCustomersByGivenDate(date);
 	}
 
