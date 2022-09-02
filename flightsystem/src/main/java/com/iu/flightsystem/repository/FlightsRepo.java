@@ -73,8 +73,8 @@ public class FlightsRepo {
 		return res;
 	}
 	
-	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
-		String sql = "SELECT f.*, c.\"CUSTOMER_NAME\", ci.\"CITY_NAME\" FROM \"FLIGHTS\" AS f, \"CUSTOMER\" AS c, \"CITIES\" AS ci WHERE c.\"CUSTOMER_ID\"=f.\"CUSTOMER_ID\" AND ci.\"CITY_ID\"=f.\"TO_WHERE\" AND c.\"CUSTOMER_NAME\"='MEHMET ŞİMŞEK' AND ci.\"CITY_NAME\"='MANİSA'";
+	public List<CustomerFlightVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
+		String sql = "SELECT f.*, c.\"CUSTOMER_NAME\", ci.\"CITY_NAME\" FROM \"FLIGHTS\" AS f, \"CUSTOMER\" AS c, \"CITIES\" AS ci WHERE c.\"CUSTOMER_ID\"=f.\"CUSTOMER_ID\" AND ci.\"CITY_ID\"=f.\"FROM_WHERE\" AND c.\"CUSTOMER_NAME\"= (:CUSTOMER_NAME) AND ci.\"CITY_NAME\" = (:CITY_NAME)";
 		RowMapper<CustomerFlightVO> rowMapper = new RowMapper<CustomerFlightVO>() {
 			@Override
 			public CustomerFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
@@ -87,11 +87,14 @@ public class FlightsRepo {
 				customerFlightVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
 				customerFlightVO.setTO_WHERE(result.getLong("TO_WHERE"));
 				customerFlightVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
+				customerFlightVO.setCITY_NAME(result.getString("CITY_NAME"));
 				return customerFlightVO;
 			}
 		};
-		
-		List<CustomerFlightVO> res = jdbcTemplate.query(sql, rowMapper);
+		HashMap<String, String> params = new HashMap<>();
+		params.put("CUSTOMER_NAME", customerName);
+		params.put("CITY_NAME", city);
+		List<CustomerFlightVO> res = namedParameterJdbcTemplate.query(sql,params, rowMapper);
 		res.removeAll(Collections.singletonList(null));
 		return res;
 	}

@@ -17,7 +17,15 @@ public class CustomerFlightVO {
 
 	private String CUSTOMER_NAME;
 	
-	private String dENEMEString;
+	private String CITY_NAME;
+
+	public String getCITY_NAME() {
+		return CITY_NAME;
+	}
+
+	public void setCITY_NAME(String CITY_NAME) {
+		this.CITY_NAME = CITY_NAME;
+	}
 
 	public Long getFLIGHT_ID() {
 		return FLIGHT_ID;

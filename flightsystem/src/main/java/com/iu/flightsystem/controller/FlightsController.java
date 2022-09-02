@@ -63,4 +63,10 @@ public class FlightsController {
 	public List<CustomerFlightVO> getFlightByCustomerName(@PathVariable(value = "customer_name") String customerName) {
 		return service.getFlightByCustomerName(customerName);
 	}
+	
+	// localhost:8080/flightsystem/flight/getOutcomingFlightsToCityByCustomerName/ZEHRA DOGAN/ankara
+	@GetMapping(value = "/getOutcomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<CustomerFlightVO> getOutcomingFlightsToCityByCustomerName(@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
+		return service.getOutcomingFlightsToCityByCustomerName(customerName, city);
+	}
 }
