@@ -23,6 +23,9 @@ public class FlightsService {
 	public boolean save(Flight flight) {
 		Long fromWhere = flight.getFROM_WHERE();
 		Long toWhere = flight.getTO_WHERE();
+		if (Math.abs(fromWhere - toWhere) == 0) {
+			throw new IllegalStateException("Bir şehirden aynı şehire uçuş gerçekleştirilemez");
+		}
 		Long price = Math.abs(fromWhere - toWhere) * 100;
 		flight.setFLIGHT_PRICE(price);
 		return repo.save(flight);
