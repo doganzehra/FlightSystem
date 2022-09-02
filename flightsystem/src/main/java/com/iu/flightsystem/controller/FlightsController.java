@@ -72,15 +72,36 @@ public class FlightsController {
 		return service.getOutcomingFlightsToCityByCustomerName(customerName, city);
 	}
 
-	// localhost:8080/flightsystem/flight/getIncomingFlightsToCityByCustomerName/MEHMET SIMSEK/MANISA
+	// localhost:8080/flightsystem/flight/getIncomingFlightsToCityByCustomerName/MEHMET
+	// SIMSEK/MANISA
 	@GetMapping(value = "/getIncomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(
 			@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
 		return service.getIncomingFlightsToCityByCustomerName(customerName, city);
 	}
+
 	// localhost:8080/flightsystem/flight/getPastFlights
 	@GetMapping(value = "/getPastFlights", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Flight> getPastFlights() {
 		return service.getPastFlights();
 	}
+
+	// localhost:8080/flightsystem/flight/getFutureFlights
+	@GetMapping(value = "/getFutureFlights", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Flight> getFutureFlights() {
+		return service.getFutureFlights();
+	}
+
+	// localhost:8080/flightsystem/flight/getTodayFlights
+	@GetMapping(value = "/getTodayFlights", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Flight> getTodayFlights() {
+		return service.getTodayFlights();
+	}
+
+	// localhost:8080/flightsystem/flight/getCustomersByGivenDate
+	@GetMapping(value = "/getCustomersByGivenDate/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<CustomerFlightVO> getCustomersByGivenDate(@PathVariable(value = "date") String date) {
+		return service.getCustomersByGivenDate(date);
+	}
+
 }

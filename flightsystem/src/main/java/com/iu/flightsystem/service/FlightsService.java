@@ -54,18 +54,50 @@ public class FlightsService {
 	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
 		return repo.getIncomingFlightsToCityByCustomerName(customerName, city);
 	}
-	
-	public List<Flight> getPastFlights(){
+
+	public List<Flight> getPastFlights() {
 		List<Flight> allFlights = repo.getAll();
-		List<Flight> pastFlights = new ArrayList<>();	
+		List<Flight> pastFlights = new ArrayList<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		String currentDate = LocalDate.now().format(formatter);
-		
-		for(Flight f1 : allFlights) {
+
+		for (Flight f1 : allFlights) {
 			if (f1.getFLIGHT_DATE().compareTo(currentDate) < 0) {
 				pastFlights.add(f1);
 			}
 		}
 		return pastFlights;
+	}
+
+	public List<Flight> getFutureFlights() {
+		List<Flight> allFlights = repo.getAll();
+		List<Flight> futureFlights = new ArrayList<>();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String currentDate = LocalDate.now().format(formatter);
+
+		for (Flight f1 : allFlights) {
+			if (f1.getFLIGHT_DATE().compareTo(currentDate) > 0) {
+				futureFlights.add(f1);
+			}
+		}
+		return futureFlights;
+	}
+
+	public List<Flight> getTodayFlights() {
+		List<Flight> allFlights = repo.getAll();
+		List<Flight> todayFlights = new ArrayList<>();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String currentDate = LocalDate.now().format(formatter);
+
+		for (Flight f1 : allFlights) {
+			if (f1.getFLIGHT_DATE().compareTo(currentDate) == 0) {
+				todayFlights.add(f1);
+			}
+		}
+		return todayFlights;
+	}
+
+	public List<CustomerFlightVO> getCustomersByGivenDate(String date) {
+		return repo.getCustomersByGivenDate(date);
 	}
 }
