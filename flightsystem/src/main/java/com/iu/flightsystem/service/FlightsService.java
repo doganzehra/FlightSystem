@@ -1,5 +1,8 @@
 package com.iu.flightsystem.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -50,5 +53,19 @@ public class FlightsService {
 
 	public List<CustomerFlightVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
 		return repo.getIncomingFlightsToCityByCustomerName(customerName, city);
+	}
+	
+	public List<Flight> getPastFlights(){
+		List<Flight> allFlights = repo.getAll();
+		List<Flight> pastFlights = new ArrayList<>();	
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String currentDate = LocalDate.now().format(formatter);
+		
+		for(Flight f1 : allFlights) {
+			if (f1.getFLIGHT_DATE().compareTo(currentDate) < 0) {
+				pastFlights.add(f1);
+			}
+		}
+		return pastFlights;
 	}
 }
