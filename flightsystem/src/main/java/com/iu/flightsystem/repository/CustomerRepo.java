@@ -2,6 +2,7 @@ package com.iu.flightsystem.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.iu.flightsystem.model.Customer;
+import com.iu.flightsystem.model.viewobject.CustomerPlaneFlightVO;
 
 @Repository
 public class CustomerRepo {
@@ -58,5 +60,26 @@ public class CustomerRepo {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("CUSTOMER_ID", id);
 		return namedParameterJdbcTemplate.update(sql, params) > 0;
+	}
+
+	public List<CustomerPlaneFlightVO> getAllCustomersOnAllFlights() {
+		String sql = "SELECT c.*, p.*, f.\"FLIGHT_DATE\",f.\"FLIGHT_PRICE\" FROM \"CUSTOMER\" c, \"PLANE\" p, \"FLIGHTS\" f WHERE p.\"PLANE_ID\" = f.\"PLANE_ID\" AND c.\"CUSTOMER_ID\"=f.\"CUSTOMER_ID\"";
+		RowMapper<CustomerPlaneFlightVO> rowMapper = new RowMapper<CustomerPlaneFlightVO>() {
+			@Override
+			public CustomerPlaneFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				CustomerPlaneFlightVO customerPlaneFlightVO = new CustomerPlaneFlightVO();
+				customerPlaneFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				customerPlaneFlightVO.setCUSTOMER_NAME(result.getString("CUSTOMER_NAME"));
+				customerPlaneFlightVO.setPLANE_ID(result.getLong("PLANE_ID"));
+				customerPlaneFlightVO.setPLANE_NAME(result.getString("PLANE_NAME"));
+				customerPlaneFlightVO.setPLANE_BRAND(result.getString("PLANE_BRAND"));
+				customerPlaneFlightVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				customerPlaneFlightVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
+				return customerPlaneFlightVO;
+			}
+		};
+		List<CustomerPlaneFlightVO> res = jdbcTemplate.query(sql, rowMapper);
+		res.removeAll(Collections.singletonList(null));
+		return res;
 	}
 }

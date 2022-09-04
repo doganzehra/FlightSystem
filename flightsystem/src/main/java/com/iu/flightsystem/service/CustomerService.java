@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.iu.flightsystem.model.Customer;
+import com.iu.flightsystem.model.viewobject.CustomerPlaneFlightVO;
 import com.iu.flightsystem.repository.CustomerRepo;
 
 @Service
@@ -29,5 +30,9 @@ public class CustomerService {
 
 	public List<Customer> getAll() {
 		return repo.getAll();
+	}
+
+	public List<CustomerPlaneFlightVO> getAllCustomersOnAllFlights() {
+		return repo.getAllCustomersOnAllFlights();
 	}
 }

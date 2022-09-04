@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iu.flightsystem.model.Customer;
+import com.iu.flightsystem.model.viewobject.CustomerPlaneFlightVO;
 import com.iu.flightsystem.service.CustomerService;
 
 @RestController
@@ -57,5 +58,11 @@ public class CustomerController {
 		} else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile silinemedi");
 		}
+	}
+
+	// localhost:8080/flightsystem/customer/getAllCustomersOnAllFlights
+	@GetMapping(value = "/getAllCustomersOnAllFlights", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<CustomerPlaneFlightVO> getAllCustomersOnAllFlights() {
+		return service.getAllCustomersOnAllFlights();
 	}
 }
