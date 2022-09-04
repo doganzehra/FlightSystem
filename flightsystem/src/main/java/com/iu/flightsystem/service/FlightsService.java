@@ -11,6 +11,8 @@ import com.iu.flightsystem.model.Flight;
 import com.iu.flightsystem.model.viewobject.CustomerFlightCityVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightDateVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
+import com.iu.flightsystem.model.viewobject.PlaneFlightCityVO;
+import com.iu.flightsystem.model.viewobject.PlaneFlightVO;
 import com.iu.flightsystem.repository.FlightsRepo;
 
 @Service
@@ -101,5 +103,17 @@ public class FlightsService {
 
 	public List<CustomerFlightDateVO> getCustomersByGivenDate(String date) {
 		return repo.getCustomersByGivenDate(date);
+	}
+
+	public List<PlaneFlightVO> getFlightByPlaneBrand(String planeBrand) {
+		return repo.getFlightByPlaneBrand(planeBrand);
+	}
+
+	public List<PlaneFlightCityVO> getIncomingFlightsToCityByPlaneBrand(String planeBrand, String city) {
+		return repo.getIncomingFlightsToCityByPlaneBrand(planeBrand, city);
+	}
+
+	public List<PlaneFlightCityVO> getOutcomingFlightsToCityByPlaneBrand(String planeBrand, String city) {
+		return repo.getOutcomingFlightsToCityByPlaneBrand(planeBrand, city);
 	}
 }

@@ -2,12 +2,9 @@ package com.iu.flightsystem.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,6 +16,8 @@ import com.iu.flightsystem.model.Flight;
 import com.iu.flightsystem.model.viewobject.CustomerFlightCityVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightDateVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
+import com.iu.flightsystem.model.viewobject.PlaneFlightCityVO;
+import com.iu.flightsystem.model.viewobject.PlaneFlightVO;
 
 @Repository
 public class FlightsRepo {
@@ -166,5 +165,84 @@ public class FlightsRepo {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("FLIGHT_ID", id);
 		return namedParameterJdbcTemplate.update(sql, params) > 0;
+	}
+
+	public List<PlaneFlightVO> getFlightByPlaneBrand(String planeBrand) {
+		String sql = "SELECT f.*, p.\"PLANE_NAME\", p.\"PLANE_BRAND\" FROM \"FLIGHTS\" f, \"PLANE\" p WHERE f.\"PLANE_ID\" = p.\"PLANE_ID\" AND p.\"PLANE_BRAND\" = :PLANE_BRAND";
+		RowMapper<PlaneFlightVO> rowMapper = new RowMapper<PlaneFlightVO>() {
+			@Override
+			public PlaneFlightVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				PlaneFlightVO planeFlightVO = new PlaneFlightVO();
+				planeFlightVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
+				planeFlightVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				planeFlightVO.setPLANE_ID(result.getLong("PLANE_ID"));
+				planeFlightVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				planeFlightVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
+				planeFlightVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
+				planeFlightVO.setTO_WHERE(result.getLong("TO_WHERE"));
+				planeFlightVO.setPLANE_NAME(result.getString("PLANE_NAME"));
+				planeFlightVO.setPLANE_BRAND(result.getString("PLANE_BRAND"));
+				return planeFlightVO;
+			}
+		};
+		HashMap<String, String> params = new HashMap<>();
+		params.put("PLANE_BRAND", planeBrand);
+		List<PlaneFlightVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
+		res.removeAll(Collections.singletonList(null));
+		return res;
+	}
+
+	public List<PlaneFlightCityVO> getIncomingFlightsToCityByPlaneBrand(String planeBrand, String city) {
+		String sql = "SELECT f.*, p.\"PLANE_NAME\", p.\"PLANE_BRAND\", c.\"CITY_NAME\" FROM \"FLIGHTS\" f, \"PLANE\" p, \"CITIES\" c WHERE f.\"PLANE_ID\" = p.\"PLANE_ID\" AND f.\"TO_WHERE\"=c.\"CITY_ID\" AND p.\"PLANE_BRAND\" = :PLANE_BRAND AND c.\"CITY_NAME\" = :CITY_NAME";
+		RowMapper<PlaneFlightCityVO> rowMapper = new RowMapper<PlaneFlightCityVO>() {
+			@Override
+			public PlaneFlightCityVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				PlaneFlightCityVO planeFlightCityVO = new PlaneFlightCityVO();
+				planeFlightCityVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
+				planeFlightCityVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				planeFlightCityVO.setPLANE_ID(result.getLong("PLANE_ID"));
+				planeFlightCityVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				planeFlightCityVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
+				planeFlightCityVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
+				planeFlightCityVO.setTO_WHERE(result.getLong("TO_WHERE"));
+				planeFlightCityVO.setPLANE_NAME(result.getString("PLANE_NAME"));
+				planeFlightCityVO.setPLANE_BRAND(result.getString("PLANE_BRAND"));
+				planeFlightCityVO.setCITY_NAME(result.getString("CITY_NAME"));
+				return planeFlightCityVO;
+			}
+		};
+		HashMap<String, String> params = new HashMap<>();
+		params.put("PLANE_BRAND", planeBrand);
+		params.put("CITY_NAME", city);
+		List<PlaneFlightCityVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
+		res.removeAll(Collections.singletonList(null));
+		return res;
+	}
+
+	public List<PlaneFlightCityVO> getOutcomingFlightsToCityByPlaneBrand(String planeBrand, String city) {
+		String sql = "SELECT f.*, p.\"PLANE_NAME\", p.\"PLANE_BRAND\", c.\"CITY_NAME\" FROM \"FLIGHTS\" f, \"PLANE\" p, \"CITIES\" c WHERE f.\"PLANE_ID\" = p.\"PLANE_ID\" AND f.\"FROM_WHERE\"=c.\"CITY_ID\" AND p.\"PLANE_BRAND\" = :PLANE_BRAND AND c.\"CITY_NAME\" = :CITY_NAME";
+		RowMapper<PlaneFlightCityVO> rowMapper = new RowMapper<PlaneFlightCityVO>() {
+			@Override
+			public PlaneFlightCityVO mapRow(ResultSet result, int rowNum) throws SQLException {
+				PlaneFlightCityVO planeFlightCityVO = new PlaneFlightCityVO();
+				planeFlightCityVO.setFLIGHT_ID(result.getLong("FLIGHT_ID"));
+				planeFlightCityVO.setCUSTOMER_ID(result.getLong("CUSTOMER_ID"));
+				planeFlightCityVO.setPLANE_ID(result.getLong("PLANE_ID"));
+				planeFlightCityVO.setFLIGHT_DATE(result.getString("FLIGHT_DATE"));
+				planeFlightCityVO.setFLIGHT_PRICE(result.getLong("FLIGHT_PRICE"));
+				planeFlightCityVO.setFROM_WHERE(result.getLong("FROM_WHERE"));
+				planeFlightCityVO.setTO_WHERE(result.getLong("TO_WHERE"));
+				planeFlightCityVO.setPLANE_NAME(result.getString("PLANE_NAME"));
+				planeFlightCityVO.setPLANE_BRAND(result.getString("PLANE_BRAND"));
+				planeFlightCityVO.setCITY_NAME(result.getString("CITY_NAME"));
+				return planeFlightCityVO;
+			}
+		};
+		HashMap<String, String> params = new HashMap<>();
+		params.put("PLANE_BRAND", planeBrand);
+		params.put("CITY_NAME", city);
+		List<PlaneFlightCityVO> res = namedParameterJdbcTemplate.query(sql, params, rowMapper);
+		res.removeAll(Collections.singletonList(null));
+		return res;
 	}
 }

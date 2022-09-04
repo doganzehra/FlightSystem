@@ -17,6 +17,8 @@ import com.iu.flightsystem.model.Flight;
 import com.iu.flightsystem.model.viewobject.CustomerFlightCityVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightDateVO;
 import com.iu.flightsystem.model.viewobject.CustomerFlightVO;
+import com.iu.flightsystem.model.viewobject.PlaneFlightCityVO;
+import com.iu.flightsystem.model.viewobject.PlaneFlightVO;
 import com.iu.flightsystem.service.FlightsService;
 
 @RestController
@@ -104,6 +106,26 @@ public class FlightsController {
 	@GetMapping(value = "/getCustomersByGivenDate/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CustomerFlightDateVO> getCustomersByGivenDate(@PathVariable(value = "date") String date) {
 		return service.getCustomersByGivenDate(date);
+	}
+
+	// localhost:8080/flightsystem/flight/getFlightByPlaneBrand/THY
+	@GetMapping(value = "/getFlightByPlaneBrand/{plane_brand}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<PlaneFlightVO> getFlightByPlaneBrand(@PathVariable(value = "plane_brand") String planeBrand) {
+		return service.getFlightByPlaneBrand(planeBrand);
+	}
+
+	// localhost:8080/flightsystem/flight/getIncomingFlightsToCityByPlaneBrand/THY/AFYON
+	@GetMapping(value = "/getIncomingFlightsToCityByPlaneBrand/{plane_brand}/{city_name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<PlaneFlightCityVO> getIncomingFlightsToCityByPlaneBrand(
+			@PathVariable(value = "plane_brand") String planeBrand, @PathVariable(value = "city_name") String city) {
+		return service.getIncomingFlightsToCityByPlaneBrand(planeBrand, city);
+	}
+
+	// localhost:8080/flightsystem/flight/getOutcomingFlightsToCityByPlaneBrand/THY/KAHRAMANMARAS
+	@GetMapping(value = "/getOutcomingFlightsToCityByPlaneBrand/{plane_brand}/{city_name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<PlaneFlightCityVO> getOutcomingFlightsToCityByPlaneBrand(
+			@PathVariable(value = "plane_brand") String planeBrand, @PathVariable(value = "city_name") String city) {
+		return service.getOutcomingFlightsToCityByPlaneBrand(planeBrand, city);
 	}
 
 }
