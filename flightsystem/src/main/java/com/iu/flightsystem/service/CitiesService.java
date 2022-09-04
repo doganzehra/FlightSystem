@@ -15,19 +15,19 @@ public class CitiesService {
 		this.repo = repo;
 	}
 
-	public boolean deleteById(Long id) {
-		return repo.deleteById(id);
-	}
-
-	public boolean save(Cities cities) {
-		return repo.save(cities);
+	public List<Cities> getAll() {
+		return repo.getAll();
 	}
 
 	public Cities getById(Long id) {
 		return repo.getById(id);
 	}
 
-	public List<Cities> getAll() {
-		return repo.getAll();
+	public boolean save(Cities cities) {
+		return repo.save(cities);
+	}
+
+	public boolean deleteById(Long id) {
+		return repo.deleteById(id);
 	}
 }

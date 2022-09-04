@@ -30,7 +30,7 @@ public class FlightsController {
 		this.service = service;
 	}
 
-//localhost:8080/flightsystem/flight/getAll
+	// localhost:8080/flightsystem/flight/getAll
 	@GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Flight> getAll() {
 		return service.getAll();
@@ -46,9 +46,9 @@ public class FlightsController {
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> save(@RequestBody Flight flight) {
 		if (service.save(flight)) {
-			return ResponseEntity.status(HttpStatus.CREATED).body("Başarı ile kaydedildi");
+			return ResponseEntity.status(HttpStatus.CREATED).body("Basari ile kaydedildi");
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile kaydedilemedi");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Basari ile kaydedilemedi");
 		}
 	}
 
@@ -56,9 +56,9 @@ public class FlightsController {
 	@DeleteMapping(value = "/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable(value = "id") Long id) {
 		if (service.deleteById(id)) {
-			return ResponseEntity.status(HttpStatus.IM_USED).body("Başarı ile silindi");
+			return ResponseEntity.status(HttpStatus.IM_USED).body("Basari ile silindi");
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile silinemedi");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Basari ile silinemedi");
 		}
 	}
 
@@ -66,9 +66,9 @@ public class FlightsController {
 	@DeleteMapping(value = "/deleteByCustomerId/{customer_id}")
 	public ResponseEntity<String> deleteByCustomerId(@PathVariable(value = "customer_id") Long customer_id) {
 		if (service.deleteByCustomerId(customer_id)) {
-			return ResponseEntity.status(HttpStatus.IM_USED).body("Başarı ile silindi");
+			return ResponseEntity.status(HttpStatus.IM_USED).body("Basari ile silindi");
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile silinemedi");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Basari ile silinemedi");
 		}
 	}
 
@@ -78,20 +78,20 @@ public class FlightsController {
 		return service.getFlightByCustomerName(customerName);
 	}
 
-	// localhost:8080/flightsystem/flight/getOutcomingFlightsToCityByCustomerName/ZEHRA
-	// DOGAN/ankara
-	@GetMapping(value = "/getOutcomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(
-			@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
-		return service.getOutcomingFlightsToCityByCustomerName(customerName, city);
-	}
-
 	// localhost:8080/flightsystem/flight/getIncomingFlightsToCityByCustomerName/MEHMET
 	// SIMSEK/MANISA
 	@GetMapping(value = "/getIncomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CustomerFlightCityVO> getIncomingFlightsToCityByCustomerName(
 			@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
 		return service.getIncomingFlightsToCityByCustomerName(customerName, city);
+	}
+
+	// localhost:8080/flightsystem/flight/getOutcomingFlightsToCityByCustomerName/ZEHRA
+	// DOGAN/ankara
+	@GetMapping(value = "/getOutcomingFlightsToCityByCustomerName/{customer_name}/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(
+			@PathVariable(value = "customer_name") String customerName, @PathVariable(value = "city") String city) {
+		return service.getOutcomingFlightsToCityByCustomerName(customerName, city);
 	}
 
 	// localhost:8080/flightsystem/flight/getPastFlights

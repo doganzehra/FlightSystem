@@ -22,14 +22,6 @@ public class PlaneRepo {
 	@Autowired
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public boolean save(Plane plane) {
-		String sql = "INSERT INTO public.\"PLANE\"(\"PLANE_NAME\", \"PLANE_BRAND\") VALUES (:PLANE_NAME, :PLANE_BRAND)";
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("PLANE_NAME", plane.getPLANE_NAME());
-		paramMap.put("PLANE_BRAND", plane.getPLANE_BRAND());
-		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
-	}
-
 	public List<Plane> getAll() {
 		String sql = "SELECT * FROM \"PLANE\"";
 		RowMapper<Plane> rowMapper = new RowMapper<Plane>() {
@@ -54,6 +46,14 @@ public class PlaneRepo {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("PLANE_ID", plane_id);
 		return namedParameterJdbcTemplate.queryForObject(sql, params, rowMapper);
+	}
+
+	public boolean save(Plane plane) {
+		String sql = "INSERT INTO public.\"PLANE\"(\"PLANE_NAME\", \"PLANE_BRAND\") VALUES (:PLANE_NAME, :PLANE_BRAND)";
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("PLANE_NAME", plane.getPLANE_NAME());
+		paramMap.put("PLANE_BRAND", plane.getPLANE_BRAND());
+		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
 	}
 
 	public boolean deleteById(Long plane_id) {

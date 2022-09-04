@@ -22,13 +22,6 @@ public class GroupRepo {
 	@Autowired
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public boolean save(Group group) {
-		String sql = "INSERT INTO public.\"GROUPS\"(\"GROUP_NO\")VALUES (:GROUP_NO)";
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("GROUP_NO", group.getGROUP_NO());
-		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
-	}
-
 	public List<Group> getAll() {
 		String sql = "SELECT * FROM \"GROUP\"";
 		RowMapper<Group> rowMapper = new RowMapper<Group>() {
@@ -51,6 +44,13 @@ public class GroupRepo {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("GROUP_ID", group_id);
 		return namedParameterJdbcTemplate.queryForObject(sql, params, rowMapper);
+	}
+
+	public boolean save(Group group) {
+		String sql = "INSERT INTO public.\"GROUPS\"(\"GROUP_NO\")VALUES (:GROUP_NO)";
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("GROUP_NO", group.getGROUP_NO());
+		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
 	}
 
 	public boolean deleteById(Long group_id) {

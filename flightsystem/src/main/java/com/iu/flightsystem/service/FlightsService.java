@@ -23,12 +23,12 @@ public class FlightsService {
 		this.repo = repo;
 	}
 
-	public boolean deleteById(Long id) {
-		return repo.deleteById(id);
+	public List<Flight> getAll() {
+		return repo.getAll();
 	}
 
-	public boolean deleteByCustomerId(Long customerId) {
-		return repo.deleteByCustomerId(customerId);
+	public Flight getById(Long id) {
+		return repo.getById(id);
 	}
 
 	public boolean save(Flight flight) {
@@ -40,27 +40,26 @@ public class FlightsService {
 		Long price = Math.abs(fromWhere - toWhere) * 100;
 		flight.setFLIGHT_PRICE(price);
 		return repo.save(flight);
-
 	}
 
-	public Flight getById(Long id) {
-		return repo.getById(id);
+	public boolean deleteById(Long id) {
+		return repo.deleteById(id);
 	}
 
-	public List<Flight> getAll() {
-		return repo.getAll();
+	public boolean deleteByCustomerId(Long customerId) {
+		return repo.deleteByCustomerId(customerId);
 	}
 
 	public List<CustomerFlightVO> getFlightByCustomerName(String customerName) {
 		return repo.getFlightByCustomerName(customerName);
 	}
 
-	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
-		return repo.getOutcomingFlightsToCityByCustomerName(customerName, city);
-	}
-
 	public List<CustomerFlightCityVO> getIncomingFlightsToCityByCustomerName(String customerName, String city) {
 		return repo.getIncomingFlightsToCityByCustomerName(customerName, city);
+	}
+
+	public List<CustomerFlightCityVO> getOutcomingFlightsToCityByCustomerName(String customerName, String city) {
+		return repo.getOutcomingFlightsToCityByCustomerName(customerName, city);
 	}
 
 	public List<Flight> getPastFlights() {

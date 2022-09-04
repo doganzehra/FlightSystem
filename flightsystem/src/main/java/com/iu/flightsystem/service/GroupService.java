@@ -12,22 +12,27 @@ import com.iu.flightsystem.repository.GroupRepo;
 public class GroupService {
 
 	@Autowired
-	public GroupRepo groupRepo;
+	public GroupRepo repo;
+
+	public GroupService(GroupRepo repo) {
+		this.repo = repo;
+		// TODO Auto-generated constructor stub
+	}
 
 	public List<Group> getAll() {
-		return groupRepo.getAll();
+		return repo.getAll();
 	}
 
 	public Group getById(Long id) {
-		return groupRepo.getById(id);
+		return repo.getById(id);
 	}
 
 	public boolean save(Group group) {
-		return groupRepo.save(group);
+		return repo.save(group);
 	}
 
 	public boolean deleteById(Long id) {
-		return groupRepo.deleteById(id);
+		return repo.deleteById(id);
 	}
 
 }

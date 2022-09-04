@@ -21,14 +21,6 @@ public class CitiesRepo {
 	@Autowired
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public boolean save(Cities cities) {
-		String sql = "INSERT INTO \"CITIES\"( \"CITY_NAME\", \"CITY_GROUP_ID\") VALUES (:CITY_NAME, :CITY_GROUP_ID)";
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("CITY_NAME", cities.getCITY_NAME());
-		paramMap.put("CITY_GROUP_ID", cities.getCITY_GROUP_ID());
-		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
-	}
-
 	public List<Cities> getAll() {
 		String sql = "SELECT * FROM \"CITIES\"";
 		RowMapper<Cities> rowMapper = new RowMapper<Cities>() {
@@ -53,6 +45,14 @@ public class CitiesRepo {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("CITY_ID", id);
 		return namedParameterJdbcTemplate.queryForObject(sql, params, rowMapper);
+	}
+
+	public boolean save(Cities cities) {
+		String sql = "INSERT INTO \"CITIES\"( \"CITY_NAME\", \"CITY_GROUP_ID\") VALUES (:CITY_NAME, :CITY_GROUP_ID)";
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("CITY_NAME", cities.getCITY_NAME());
+		paramMap.put("CITY_GROUP_ID", cities.getCITY_GROUP_ID());
+		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
 	}
 
 	public boolean deleteById(Long id) {

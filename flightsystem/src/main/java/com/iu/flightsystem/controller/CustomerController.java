@@ -44,9 +44,9 @@ public class CustomerController {
 	@PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> save(@RequestBody Customer customer) {
 		if (service.save(customer)) {
-			return ResponseEntity.status(HttpStatus.CREATED).body("Başarı ile kaydedildi");
+			return ResponseEntity.status(HttpStatus.CREATED).body("Basari ile kaydedildi");
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile kaydedilemedi");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Basari ile kaydedilemedi");
 		}
 	}
 
@@ -54,9 +54,9 @@ public class CustomerController {
 	@DeleteMapping(value = "/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable(value = "id") Long id) {
 		if (service.deleteById(id)) {
-			return ResponseEntity.status(HttpStatus.IM_USED).body("Başarı ile silindi");
+			return ResponseEntity.status(HttpStatus.IM_USED).body("Basari ile silindi");
 		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile silinemedi");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Basari ile silinemedi");
 		}
 	}
 

@@ -24,13 +24,6 @@ public class CustomerRepo {
 	@Autowired
 	public NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	public boolean save(Customer customer) {
-		String sql = "INSERT INTO \"CUSTOMER\"( \"CUSTOMER_NAME\") VALUES (:CUSTOMER_NAME)";
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("CUSTOMER_NAME", customer.getCUSTOMER_NAME());
-		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
-	}
-
 	public List<Customer> getAll() {
 		String sql = "SELECT * FROM \"CUSTOMER\"";
 		RowMapper<Customer> rowMapper = new RowMapper<Customer>() {
@@ -53,6 +46,13 @@ public class CustomerRepo {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("CUSTOMER_ID", id);
 		return namedParameterJdbcTemplate.queryForObject(sql, params, rowMapper);
+	}
+
+	public boolean save(Customer customer) {
+		String sql = "INSERT INTO \"CUSTOMER\"( \"CUSTOMER_NAME\") VALUES (:CUSTOMER_NAME)";
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("CUSTOMER_NAME", customer.getCUSTOMER_NAME());
+		return namedParameterJdbcTemplate.update(sql, paramMap) == 1;
 	}
 
 	public boolean deleteById(Long id) {

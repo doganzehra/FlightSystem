@@ -16,20 +16,20 @@ public class CustomerService {
 		this.repo = repo;
 	}
 
-	public boolean deleteById(Long id) {
-		return repo.deleteById(id);
-	}
-
-	public boolean save(Customer customer) {
-		return repo.save(customer);
+	public List<Customer> getAll() {
+		return repo.getAll();
 	}
 
 	public Customer getById(Long id) {
 		return repo.getById(id);
 	}
 
-	public List<Customer> getAll() {
-		return repo.getAll();
+	public boolean save(Customer customer) {
+		return repo.save(customer);
+	}
+
+	public boolean deleteById(Long id) {
+		return repo.deleteById(id);
 	}
 
 	public List<CustomerPlaneFlightVO> getAllCustomersOnAllFlights() {

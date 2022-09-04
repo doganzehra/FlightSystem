@@ -12,21 +12,26 @@ import com.iu.flightsystem.repository.PlaneRepo;
 public class PlaneService {
 
 	@Autowired
-	public PlaneRepo planeRepo;
+	public PlaneRepo repo;
 
-	public boolean deleteById(Long id) {
-		return planeRepo.deleteById(id);
-	}
-
-	public boolean save(Plane plane) {
-		return planeRepo.save(plane);
-	}
-
-	public Plane getById(Long id) {
-		return planeRepo.getById(id);
+	public PlaneService(PlaneRepo repo) {
+		this.repo = repo;
+		// TODO Auto-generated constructor stub
 	}
 
 	public List<Plane> getAll() {
-		return planeRepo.getAll();
+		return repo.getAll();
+	}
+
+	public Plane getById(Long id) {
+		return repo.getById(id);
+	}
+
+	public boolean save(Plane plane) {
+		return repo.save(plane);
+	}
+
+	public boolean deleteById(Long id) {
+		return repo.deleteById(id);
 	}
 }
