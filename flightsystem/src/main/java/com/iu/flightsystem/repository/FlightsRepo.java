@@ -160,6 +160,13 @@ public class FlightsRepo {
 		return namedParameterJdbcTemplate.queryForObject(sql, params, rowMapper);
 	}
 
+	public boolean deleteByCustomerId(Long customerId) {
+		String sql = "DELETE FROM \"FLIGHTS\" WHERE \"CUSTOMER_ID\" = :CUSTOMER_ID";
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("CUSTOMER_ID", customerId);
+		return namedParameterJdbcTemplate.update(sql, params) > 0;
+	}
+
 	public boolean deleteById(Long id) {
 		String sql = "DELETE FROM \"FLIGHTS\" where \"FLIGHT_ID\" = :FLIGHT_ID";
 		HashMap<String, Object> params = new HashMap<>();

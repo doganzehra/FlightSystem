@@ -62,6 +62,16 @@ public class FlightsController {
 		}
 	}
 
+	// localhost:8080/flightsystem/flight/deleteByCustomerId/22
+	@DeleteMapping(value = "/deleteByCustomerId/{customer_id}")
+	public ResponseEntity<String> deleteByCustomerId(@PathVariable(value = "customer_id") Long customer_id) {
+		if (service.deleteByCustomerId(customer_id)) {
+			return ResponseEntity.status(HttpStatus.IM_USED).body("Başarı ile silindi");
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Başarı ile silinemedi");
+		}
+	}
+
 	// localhost:8080/flightsystem/flight/getFlightByCustomerName/ZEHRA DOGAN
 	@GetMapping(value = "/getFlightByCustomerName/{customer_name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<CustomerFlightVO> getFlightByCustomerName(@PathVariable(value = "customer_name") String customerName) {

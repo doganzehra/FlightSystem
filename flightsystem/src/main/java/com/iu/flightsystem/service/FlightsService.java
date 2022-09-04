@@ -27,6 +27,10 @@ public class FlightsService {
 		return repo.deleteById(id);
 	}
 
+	public boolean deleteByCustomerId(Long customerId) {
+		return repo.deleteByCustomerId(customerId);
+	}
+
 	public boolean save(Flight flight) {
 		Long fromWhere = flight.getFROM_WHERE();
 		Long toWhere = flight.getTO_WHERE();
